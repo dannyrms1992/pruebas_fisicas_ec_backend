@@ -1,0 +1,51 @@
+{
+  "kind": "collectionType",
+  "collectionName": "rutinas",
+  "info": {
+    "singularName": "rutina",
+    "pluralName": "rutinas",
+    "displayName": "Rutinas",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "FechayHora": {
+      "type": "string"
+    },
+    "Implementos": {
+      "type": "string"
+    },
+    "Tipo": {
+      "type": "string"
+    },
+    "NombreEntrenamiento": {
+      "type": "string"
+    },
+    "FasesEntrenamiento": {
+      "type": "string"
+    },
+    "Link": {
+      "type": "string"
+    },
+    "Imagenes": {
+      "type": "media",
+      "multiple": true,
+      "required": false,
+      "allowedTypes": [
+        "images",
+        "files",
+        "videos",
+        "audios"
+      ]
+    },
+    "users_permissions_user": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "plugin::users-permissions.user",
+      "inversedBy": "rutinas"
+    }
+  }
+}

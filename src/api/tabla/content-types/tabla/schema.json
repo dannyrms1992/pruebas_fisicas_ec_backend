@@ -1,0 +1,91 @@
+{
+  "kind": "collectionType",
+  "collectionName": "tablas",
+  "info": {
+    "singularName": "tabla",
+    "pluralName": "tablas",
+    "displayName": "Tablas",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "Titulo": {
+      "type": "string"
+    },
+    "Edad_Minima": {
+      "type": "integer"
+    },
+    "Edad_Maxima": {
+      "type": "integer"
+    },
+    "Tiempo_Hombre": {
+      "type": "decimal"
+    },
+    "users_permissions_users": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "plugin::users-permissions.user",
+      "mappedBy": "tabla"
+    },
+    "institucione": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::institucion.institucion",
+      "inversedBy": "tablas"
+    },
+    "Tiempo_Mujer": {
+      "type": "decimal"
+    },
+    "HombreFlexCodo": {
+      "type": "integer",
+      "default": 0
+    },
+    "MujerFlexCodo": {
+      "type": "integer",
+      "default": 0
+    },
+    "HombreFlexAbdominal": {
+      "type": "integer",
+      "default": 0
+    },
+    "MujerFlexAbdominal": {
+      "type": "integer",
+      "default": 0
+    },
+    "HombreNatacion": {
+      "type": "decimal",
+      "default": 0
+    },
+    "MujerNatacion": {
+      "type": "decimal",
+      "default": 0
+    },
+    "DistanciaNatacion": {
+      "type": "integer",
+      "default": 0
+    },
+    "CaboHombre": {
+      "type": "decimal",
+      "default": 0
+    },
+    "CaboMujer": {
+      "type": "decimal",
+      "default": 0
+    },
+    "HombreCaboDistancia": {
+      "type": "integer",
+      "default": 0
+    },
+    "MujerCaboDistancia": {
+      "type": "integer",
+      "default": 0
+    },
+    "aspirante": {
+      "type": "boolean",
+      "default": false
+    }
+  }
+}

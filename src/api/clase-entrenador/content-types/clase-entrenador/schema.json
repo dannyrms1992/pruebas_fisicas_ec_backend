@@ -1,0 +1,75 @@
+{
+  "kind": "collectionType",
+  "collectionName": "clases_entrenador",
+  "info": {
+    "singularName": "clase-entrenador",
+    "pluralName": "clases-entrenador",
+    "displayName": "Clases_Entrenador",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "Nombre": {
+      "type": "string"
+    },
+    "Descripcion": {
+      "type": "text"
+    },
+    "web": {
+      "type": "string"
+    },
+    "tipo": {
+      "type": "string"
+    },
+    "ImagenPortada": {
+      "type": "media",
+      "multiple": false,
+      "required": false,
+      "allowedTypes": [
+        "images",
+        "files",
+        "videos",
+        "audios"
+      ]
+    },
+    "Ubicacion": {
+      "type": "string"
+    },
+    "admin": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "plugin::users-permissions.user",
+      "inversedBy": "clases_entrenadors"
+    },
+    "alumnos": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "plugin::users-permissions.user",
+      "inversedBy": "mis_clases"
+    },
+    "Fecha": {
+      "type": "string"
+    },
+    "solicitudes": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "plugin::users-permissions.user",
+      "inversedBy": "solicitud"
+    },
+    "publicaciones": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::publicacion.publicacion",
+      "mappedBy": "clases_entrenadors"
+    },
+    "logs": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::log.log",
+      "mappedBy": "clases_entrenador"
+    }
+  }
+}

@@ -1,0 +1,74 @@
+{
+  "kind": "collectionType",
+  "collectionName": "publicaciones",
+  "info": {
+    "singularName": "publicacion",
+    "pluralName": "publicaciones",
+    "displayName": "Publicaciones",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "Titulo": {
+      "type": "string"
+    },
+    "Detalle": {
+      "type": "text"
+    },
+    "Tipo": {
+      "type": "string"
+    },
+    "Documentos": {
+      "type": "media",
+      "multiple": true,
+      "required": false,
+      "allowedTypes": [
+        "images",
+        "files",
+        "videos",
+        "audios"
+      ]
+    },
+    "users_permissions_user": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "plugin::users-permissions.user",
+      "inversedBy": "publicaciones"
+    },
+    "dataActividad": {
+      "type": "json"
+    },
+    "comentarios": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::comentario.comentario",
+      "mappedBy": "publicacione"
+    },
+    "likes": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::like.like",
+      "mappedBy": "publicacione"
+    },
+    "coach": {
+      "type": "boolean",
+      "default": false
+    },
+    "clases_entrenadors": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::clase-entrenador.clase-entrenador",
+      "inversedBy": "publicaciones"
+    },
+    "rutina": {
+      "type": "boolean",
+      "default": false
+    },
+    "Fecha": {
+      "type": "date"
+    }
+  }
+}

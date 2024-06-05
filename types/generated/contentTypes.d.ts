@@ -590,6 +590,53 @@ export interface PluginContentReleasesReleaseAction
   };
 }
 
+export interface PluginI18NLocale extends Schema.CollectionType {
+  collectionName: 'i18n_locale';
+  info: {
+    singularName: 'locale';
+    pluralName: 'locales';
+    collectionName: 'locales';
+    displayName: 'Locale';
+    description: '';
+  };
+  options: {
+    draftAndPublish: false;
+  };
+  pluginOptions: {
+    'content-manager': {
+      visible: false;
+    };
+    'content-type-builder': {
+      visible: false;
+    };
+  };
+  attributes: {
+    name: Attribute.String &
+      Attribute.SetMinMax<
+        {
+          min: 1;
+          max: 50;
+        },
+        number
+      >;
+    code: Attribute.String & Attribute.Unique;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'plugin::i18n.locale',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'plugin::i18n.locale',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+  };
+}
+
 export interface PluginUsersPermissionsPermission
   extends Schema.CollectionType {
   collectionName: 'up_permissions';
@@ -695,7 +742,6 @@ export interface PluginUsersPermissionsUser extends Schema.CollectionType {
   };
   options: {
     draftAndPublish: false;
-    timestamps: true;
   };
   attributes: {
     username: Attribute.String &
@@ -724,6 +770,63 @@ export interface PluginUsersPermissionsUser extends Schema.CollectionType {
       'manyToOne',
       'plugin::users-permissions.role'
     >;
+    name: Attribute.Text;
+    lastName: Attribute.Text;
+    gender: Attribute.Text;
+    birthday: Attribute.Text;
+    weigth: Attribute.Text;
+    size: Attribute.Text;
+    publicaciones: Attribute.Relation<
+      'plugin::users-permissions.user',
+      'oneToMany',
+      'api::publicacion.publicacion'
+    >;
+    comentarios: Attribute.Relation<
+      'plugin::users-permissions.user',
+      'oneToMany',
+      'api::comentario.comentario'
+    >;
+    likes: Attribute.Relation<
+      'plugin::users-permissions.user',
+      'oneToMany',
+      'api::like.like'
+    >;
+    tabla: Attribute.Relation<
+      'plugin::users-permissions.user',
+      'manyToOne',
+      'api::tabla.tabla'
+    >;
+    rutas: Attribute.Relation<
+      'plugin::users-permissions.user',
+      'oneToMany',
+      'api::ruta.ruta'
+    >;
+    imagenPerfil: Attribute.Media;
+    clases_entrenadors: Attribute.Relation<
+      'plugin::users-permissions.user',
+      'oneToMany',
+      'api::clase-entrenador.clase-entrenador'
+    >;
+    mis_clases: Attribute.Relation<
+      'plugin::users-permissions.user',
+      'manyToMany',
+      'api::clase-entrenador.clase-entrenador'
+    >;
+    solicitud: Attribute.Relation<
+      'plugin::users-permissions.user',
+      'manyToMany',
+      'api::clase-entrenador.clase-entrenador'
+    >;
+    notificaciones: Attribute.Relation<
+      'plugin::users-permissions.user',
+      'manyToMany',
+      'api::notificacion.notificacion'
+    >;
+    rutinas: Attribute.Relation<
+      'plugin::users-permissions.user',
+      'oneToMany',
+      'api::rutina.rutina'
+    >;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     createdBy: Attribute.Relation<
@@ -741,46 +844,541 @@ export interface PluginUsersPermissionsUser extends Schema.CollectionType {
   };
 }
 
-export interface PluginI18NLocale extends Schema.CollectionType {
-  collectionName: 'i18n_locale';
+export interface ApiCategoriasProductoCategoriasProducto
+  extends Schema.CollectionType {
+  collectionName: 'categorias_productos';
   info: {
-    singularName: 'locale';
-    pluralName: 'locales';
-    collectionName: 'locales';
-    displayName: 'Locale';
-    description: '';
+    singularName: 'categorias-producto';
+    pluralName: 'categorias-productos';
+    displayName: 'Categorias Productos';
   };
   options: {
-    draftAndPublish: false;
-  };
-  pluginOptions: {
-    'content-manager': {
-      visible: false;
-    };
-    'content-type-builder': {
-      visible: false;
-    };
+    draftAndPublish: true;
   };
   attributes: {
-    name: Attribute.String &
-      Attribute.SetMinMax<
-        {
-          min: 1;
-          max: 50;
-        },
-        number
-      >;
-    code: Attribute.String & Attribute.Unique;
+    Titulo: Attribute.String;
+    productos: Attribute.Relation<
+      'api::categorias-producto.categorias-producto',
+      'oneToMany',
+      'api::producto.producto'
+    >;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
+    publishedAt: Attribute.DateTime;
     createdBy: Attribute.Relation<
-      'plugin::i18n.locale',
+      'api::categorias-producto.categorias-producto',
       'oneToOne',
       'admin::user'
     > &
       Attribute.Private;
     updatedBy: Attribute.Relation<
-      'plugin::i18n.locale',
+      'api::categorias-producto.categorias-producto',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+  };
+}
+
+export interface ApiClaseEntrenadorClaseEntrenador
+  extends Schema.CollectionType {
+  collectionName: 'clases_entrenador';
+  info: {
+    singularName: 'clase-entrenador';
+    pluralName: 'clases-entrenador';
+    displayName: 'Clases_Entrenador';
+    description: '';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    Nombre: Attribute.String;
+    Descripcion: Attribute.Text;
+    web: Attribute.String;
+    tipo: Attribute.String;
+    ImagenPortada: Attribute.Media;
+    Ubicacion: Attribute.String;
+    admin: Attribute.Relation<
+      'api::clase-entrenador.clase-entrenador',
+      'manyToOne',
+      'plugin::users-permissions.user'
+    >;
+    alumnos: Attribute.Relation<
+      'api::clase-entrenador.clase-entrenador',
+      'manyToMany',
+      'plugin::users-permissions.user'
+    >;
+    Fecha: Attribute.String;
+    solicitudes: Attribute.Relation<
+      'api::clase-entrenador.clase-entrenador',
+      'manyToMany',
+      'plugin::users-permissions.user'
+    >;
+    publicaciones: Attribute.Relation<
+      'api::clase-entrenador.clase-entrenador',
+      'manyToMany',
+      'api::publicacion.publicacion'
+    >;
+    logs: Attribute.Relation<
+      'api::clase-entrenador.clase-entrenador',
+      'oneToMany',
+      'api::log.log'
+    >;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    publishedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::clase-entrenador.clase-entrenador',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::clase-entrenador.clase-entrenador',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+  };
+}
+
+export interface ApiComentarioComentario extends Schema.CollectionType {
+  collectionName: 'comentarios';
+  info: {
+    singularName: 'comentario';
+    pluralName: 'comentarios';
+    displayName: 'Comentarios';
+    description: '';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    Comentario: Attribute.Text;
+    publicacione: Attribute.Relation<
+      'api::comentario.comentario',
+      'manyToOne',
+      'api::publicacion.publicacion'
+    >;
+    users_permissions_user: Attribute.Relation<
+      'api::comentario.comentario',
+      'manyToOne',
+      'plugin::users-permissions.user'
+    >;
+    Fecha: Attribute.String;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    publishedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::comentario.comentario',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::comentario.comentario',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+  };
+}
+
+export interface ApiInstitucionInstitucion extends Schema.CollectionType {
+  collectionName: 'instituciones';
+  info: {
+    singularName: 'institucion';
+    pluralName: 'instituciones';
+    displayName: 'Instituciones';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    Nombre: Attribute.String;
+    tablas: Attribute.Relation<
+      'api::institucion.institucion',
+      'oneToMany',
+      'api::tabla.tabla'
+    >;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    publishedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::institucion.institucion',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::institucion.institucion',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+  };
+}
+
+export interface ApiLikeLike extends Schema.CollectionType {
+  collectionName: 'likes';
+  info: {
+    singularName: 'like';
+    pluralName: 'likes';
+    displayName: 'Likes';
+    description: '';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    publicacione: Attribute.Relation<
+      'api::like.like',
+      'manyToOne',
+      'api::publicacion.publicacion'
+    >;
+    users_permissions_user: Attribute.Relation<
+      'api::like.like',
+      'manyToOne',
+      'plugin::users-permissions.user'
+    >;
+    idUser: Attribute.String;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    publishedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<'api::like.like', 'oneToOne', 'admin::user'> &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<'api::like.like', 'oneToOne', 'admin::user'> &
+      Attribute.Private;
+  };
+}
+
+export interface ApiLogLog extends Schema.CollectionType {
+  collectionName: 'logs';
+  info: {
+    singularName: 'log';
+    pluralName: 'logs';
+    displayName: 'Logs';
+    description: '';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    Id_Usuario: Attribute.String;
+    clases_entrenador: Attribute.Relation<
+      'api::log.log',
+      'manyToOne',
+      'api::clase-entrenador.clase-entrenador'
+    >;
+    Fecha: Attribute.Date;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    publishedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<'api::log.log', 'oneToOne', 'admin::user'> &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<'api::log.log', 'oneToOne', 'admin::user'> &
+      Attribute.Private;
+  };
+}
+
+export interface ApiNotificacionNotificacion extends Schema.CollectionType {
+  collectionName: 'notificaciones';
+  info: {
+    singularName: 'notificacion';
+    pluralName: 'notificaciones';
+    displayName: 'Notificaciones';
+    description: '';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    Titulo: Attribute.String;
+    Contenido: Attribute.Text;
+    Fecha: Attribute.Date;
+    Tipo: Attribute.Enumeration<
+      ['SOLICITUD', 'INVITACION', 'TIENDA', 'ACTIVIDAD']
+    >;
+    users_permissions_users: Attribute.Relation<
+      'api::notificacion.notificacion',
+      'manyToMany',
+      'plugin::users-permissions.user'
+    >;
+    data: Attribute.JSON;
+    completado: Attribute.Boolean & Attribute.DefaultTo<false>;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    publishedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::notificacion.notificacion',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::notificacion.notificacion',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+  };
+}
+
+export interface ApiProductoProducto extends Schema.CollectionType {
+  collectionName: 'productos';
+  info: {
+    singularName: 'producto';
+    pluralName: 'productos';
+    displayName: 'Productos';
+    description: '';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    Titulo: Attribute.String;
+    Descripcion: Attribute.Text;
+    Precio_Normal: Attribute.Decimal;
+    Precio_Final: Attribute.Decimal;
+    categorias_producto: Attribute.Relation<
+      'api::producto.producto',
+      'manyToOne',
+      'api::categorias-producto.categorias-producto'
+    >;
+    Galeria: Attribute.Media;
+    Caracteristicas: Attribute.JSON;
+    Calificacion: Attribute.Decimal;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    publishedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::producto.producto',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::producto.producto',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+  };
+}
+
+export interface ApiPublicacionPublicacion extends Schema.CollectionType {
+  collectionName: 'publicaciones';
+  info: {
+    singularName: 'publicacion';
+    pluralName: 'publicaciones';
+    displayName: 'Publicaciones';
+    description: '';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    Titulo: Attribute.String;
+    Detalle: Attribute.Text;
+    Tipo: Attribute.String;
+    Documentos: Attribute.Media;
+    users_permissions_user: Attribute.Relation<
+      'api::publicacion.publicacion',
+      'manyToOne',
+      'plugin::users-permissions.user'
+    >;
+    dataActividad: Attribute.JSON;
+    comentarios: Attribute.Relation<
+      'api::publicacion.publicacion',
+      'oneToMany',
+      'api::comentario.comentario'
+    >;
+    likes: Attribute.Relation<
+      'api::publicacion.publicacion',
+      'oneToMany',
+      'api::like.like'
+    >;
+    coach: Attribute.Boolean & Attribute.DefaultTo<false>;
+    clases_entrenadors: Attribute.Relation<
+      'api::publicacion.publicacion',
+      'manyToMany',
+      'api::clase-entrenador.clase-entrenador'
+    >;
+    rutina: Attribute.Boolean & Attribute.DefaultTo<false>;
+    Fecha: Attribute.Date;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    publishedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::publicacion.publicacion',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::publicacion.publicacion',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+  };
+}
+
+export interface ApiRutaRuta extends Schema.CollectionType {
+  collectionName: 'rutas';
+  info: {
+    singularName: 'ruta';
+    pluralName: 'rutas';
+    displayName: 'Rutas';
+    description: '';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    Nombre: Attribute.String;
+    users_permissions_user: Attribute.Relation<
+      'api::ruta.ruta',
+      'manyToOne',
+      'plugin::users-permissions.user'
+    >;
+    Poligonos: Attribute.JSON;
+    Fecha: Attribute.String;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    publishedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<'api::ruta.ruta', 'oneToOne', 'admin::user'> &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<'api::ruta.ruta', 'oneToOne', 'admin::user'> &
+      Attribute.Private;
+  };
+}
+
+export interface ApiRutinaRutina extends Schema.CollectionType {
+  collectionName: 'rutinas';
+  info: {
+    singularName: 'rutina';
+    pluralName: 'rutinas';
+    displayName: 'Rutinas';
+    description: '';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    FechayHora: Attribute.String;
+    Implementos: Attribute.String;
+    Tipo: Attribute.String;
+    NombreEntrenamiento: Attribute.String;
+    FasesEntrenamiento: Attribute.String;
+    Link: Attribute.String;
+    Imagenes: Attribute.Media;
+    users_permissions_user: Attribute.Relation<
+      'api::rutina.rutina',
+      'manyToOne',
+      'plugin::users-permissions.user'
+    >;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    publishedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::rutina.rutina',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::rutina.rutina',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+  };
+}
+
+export interface ApiTablaTabla extends Schema.CollectionType {
+  collectionName: 'tablas';
+  info: {
+    singularName: 'tabla';
+    pluralName: 'tablas';
+    displayName: 'Tablas';
+    description: '';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    Titulo: Attribute.String;
+    Edad_Minima: Attribute.Integer;
+    Edad_Maxima: Attribute.Integer;
+    Tiempo_Hombre: Attribute.Decimal;
+    users_permissions_users: Attribute.Relation<
+      'api::tabla.tabla',
+      'oneToMany',
+      'plugin::users-permissions.user'
+    >;
+    institucione: Attribute.Relation<
+      'api::tabla.tabla',
+      'manyToOne',
+      'api::institucion.institucion'
+    >;
+    Tiempo_Mujer: Attribute.Decimal;
+    HombreFlexCodo: Attribute.Integer & Attribute.DefaultTo<0>;
+    MujerFlexCodo: Attribute.Integer & Attribute.DefaultTo<0>;
+    HombreFlexAbdominal: Attribute.Integer & Attribute.DefaultTo<0>;
+    MujerFlexAbdominal: Attribute.Integer & Attribute.DefaultTo<0>;
+    HombreNatacion: Attribute.Decimal & Attribute.DefaultTo<0>;
+    MujerNatacion: Attribute.Decimal & Attribute.DefaultTo<0>;
+    DistanciaNatacion: Attribute.Integer & Attribute.DefaultTo<0>;
+    CaboHombre: Attribute.Decimal & Attribute.DefaultTo<0>;
+    CaboMujer: Attribute.Decimal & Attribute.DefaultTo<0>;
+    HombreCaboDistancia: Attribute.Integer & Attribute.DefaultTo<0>;
+    MujerCaboDistancia: Attribute.Integer & Attribute.DefaultTo<0>;
+    aspirante: Attribute.Boolean & Attribute.DefaultTo<false>;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    publishedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::tabla.tabla',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::tabla.tabla',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+  };
+}
+
+export interface ApiTiendaTienda extends Schema.SingleType {
+  collectionName: 'tiendas';
+  info: {
+    singularName: 'tienda';
+    pluralName: 'tiendas';
+    displayName: 'Tienda';
+    description: '';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    Banner: Attribute.Media;
+    Banner_Principal: Attribute.Media;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    publishedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::tienda.tienda',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::tienda.tienda',
       'oneToOne',
       'admin::user'
     > &
@@ -802,10 +1400,23 @@ declare module '@strapi/types' {
       'plugin::upload.folder': PluginUploadFolder;
       'plugin::content-releases.release': PluginContentReleasesRelease;
       'plugin::content-releases.release-action': PluginContentReleasesReleaseAction;
+      'plugin::i18n.locale': PluginI18NLocale;
       'plugin::users-permissions.permission': PluginUsersPermissionsPermission;
       'plugin::users-permissions.role': PluginUsersPermissionsRole;
       'plugin::users-permissions.user': PluginUsersPermissionsUser;
-      'plugin::i18n.locale': PluginI18NLocale;
+      'api::categorias-producto.categorias-producto': ApiCategoriasProductoCategoriasProducto;
+      'api::clase-entrenador.clase-entrenador': ApiClaseEntrenadorClaseEntrenador;
+      'api::comentario.comentario': ApiComentarioComentario;
+      'api::institucion.institucion': ApiInstitucionInstitucion;
+      'api::like.like': ApiLikeLike;
+      'api::log.log': ApiLogLog;
+      'api::notificacion.notificacion': ApiNotificacionNotificacion;
+      'api::producto.producto': ApiProductoProducto;
+      'api::publicacion.publicacion': ApiPublicacionPublicacion;
+      'api::ruta.ruta': ApiRutaRuta;
+      'api::rutina.rutina': ApiRutinaRutina;
+      'api::tabla.tabla': ApiTablaTabla;
+      'api::tienda.tienda': ApiTiendaTienda;
     }
   }
 }

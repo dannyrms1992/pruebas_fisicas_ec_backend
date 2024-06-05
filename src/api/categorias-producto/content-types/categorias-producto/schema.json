@@ -1,0 +1,24 @@
+{
+  "kind": "collectionType",
+  "collectionName": "categorias_productos",
+  "info": {
+    "singularName": "categorias-producto",
+    "pluralName": "categorias-productos",
+    "displayName": "Categorias Productos"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "Titulo": {
+      "type": "string"
+    },
+    "productos": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::producto.producto",
+      "mappedBy": "categorias_producto"
+    }
+  }
+}

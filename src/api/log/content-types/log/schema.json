@@ -1,0 +1,28 @@
+{
+  "kind": "collectionType",
+  "collectionName": "logs",
+  "info": {
+    "singularName": "log",
+    "pluralName": "logs",
+    "displayName": "Logs",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "Id_Usuario": {
+      "type": "string"
+    },
+    "clases_entrenador": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::clase-entrenador.clase-entrenador",
+      "inversedBy": "logs"
+    },
+    "Fecha": {
+      "type": "date"
+    }
+  }
+}

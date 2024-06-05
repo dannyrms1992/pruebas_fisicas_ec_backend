@@ -1,0 +1,157 @@
+{
+  "kind": "collectionType",
+  "collectionName": "up_users",
+  "info": {
+    "name": "user",
+    "description": "",
+    "singularName": "user",
+    "pluralName": "users",
+    "displayName": "User"
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "attributes": {
+    "username": {
+      "type": "string",
+      "minLength": 3,
+      "unique": true,
+      "configurable": false,
+      "required": true
+    },
+    "email": {
+      "type": "email",
+      "minLength": 6,
+      "configurable": false,
+      "required": true
+    },
+    "provider": {
+      "type": "string",
+      "configurable": false
+    },
+    "password": {
+      "type": "password",
+      "minLength": 6,
+      "configurable": false,
+      "private": true,
+      "searchable": false
+    },
+    "resetPasswordToken": {
+      "type": "string",
+      "configurable": false,
+      "private": true,
+      "searchable": false
+    },
+    "confirmationToken": {
+      "type": "string",
+      "configurable": false,
+      "private": true,
+      "searchable": false
+    },
+    "confirmed": {
+      "type": "boolean",
+      "default": false,
+      "configurable": false
+    },
+    "blocked": {
+      "type": "boolean",
+      "default": false,
+      "configurable": false
+    },
+    "role": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "plugin::users-permissions.role",
+      "inversedBy": "users",
+      "configurable": false
+    },
+    "name": {
+      "type": "text"
+    },
+    "lastName": {
+      "type": "text"
+    },
+    "gender": {
+      "type": "text"
+    },
+    "birthday": {
+      "type": "text"
+    },
+    "weigth": {
+      "type": "text"
+    },
+    "size": {
+      "type": "text"
+    },
+    "publicaciones": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::publicacion.publicacion",
+      "mappedBy": "users_permissions_user"
+    },
+    "comentarios": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::comentario.comentario",
+      "mappedBy": "users_permissions_user"
+    },
+    "likes": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::like.like",
+      "mappedBy": "users_permissions_user"
+    },
+    "tabla": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::tabla.tabla",
+      "inversedBy": "users_permissions_users"
+    },
+    "rutas": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::ruta.ruta",
+      "mappedBy": "users_permissions_user"
+    },
+    "imagenPerfil": {
+      "allowedTypes": [
+        "images",
+        "files",
+        "videos",
+        "audios"
+      ],
+      "type": "media",
+      "multiple": false
+    },
+    "clases_entrenadors": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::clase-entrenador.clase-entrenador",
+      "mappedBy": "admin"
+    },
+    "mis_clases": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::clase-entrenador.clase-entrenador",
+      "mappedBy": "alumnos"
+    },
+    "solicitud": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::clase-entrenador.clase-entrenador",
+      "mappedBy": "solicitudes"
+    },
+    "notificaciones": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::notificacion.notificacion",
+      "mappedBy": "users_permissions_users"
+    },
+    "rutinas": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::rutina.rutina",
+      "mappedBy": "users_permissions_user"
+    }
+  }
+}
