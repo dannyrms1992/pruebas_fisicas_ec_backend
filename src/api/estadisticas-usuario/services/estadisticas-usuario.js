@@ -1,16 +1,22 @@
 'use strict';
-function tiempoASegundos(tiempo) {
-    const [horas, minutos, segundos] = tiempo.split(':').map(Number);
-    return horas * 3600 + minutos * 60 + segundos;
-}
+function convertirMilisegundos(ms) {
+    // 1 segundo = 1000 milisegundos
+    // 1 minuto = 60 segundos
+    // 1 hora = 60 minutos
+    const segundosTotales = Math.floor(ms / 1000);
+    const segundos = segundosTotales % 60;
 
-// Función para convertir segundos a tiempo
-function segundosATiempo(segundos) {
-    const horas = Math.floor(segundos / 3600);
-    segundos %= 3600;
-    const minutos = Math.floor(segundos / 60);
-    segundos %= 60;
-    return `${String(horas).padStart(2, '0')}:${String(minutos).padStart(2, '0')}:${String(segundos).padStart(2, '0')}`;
+    const minutosTotales = Math.floor(segundosTotales / 60);
+    const minutos = minutosTotales % 60;
+
+    const horas = Math.floor(minutosTotales / 60);
+
+    // Formatear a hh:mm:ss
+    const horasFormato = horas.toString().padStart(2, '0');
+    const minutosFormato = minutos.toString().padStart(2, '0');
+    const segundosFormato = segundos.toString().padStart(2, '0');
+
+    return `${horasFormato}:${minutosFormato}:${segundosFormato}`;
 }
 function parseFecha(fechasG) {
     var fechas = fechasG.map((value, index) => {
@@ -278,9 +284,10 @@ module.exports = {
 
                 }
             }
-            const totalHoras = Math.ceil(totalMilisegundos / (3600000));
+            const tiempoFormateado = convertirMilisegundos(totalMilisegundos);
+
             return {
-                "TotalHours":totalHoras,
+                "TotalHours":tiempoFormateado.toString(),
                 "TotalEntrenamientos": totalEntrenamientos,
                 "TotalPruebas": totalPruebas,
                 "usuariosData": usuariosData
