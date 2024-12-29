@@ -1,0 +1,9 @@
+.tmp/
+.cache/
+.env
+.git/
+.env.example
+.env.test
+README.md
+LICENSE 
+node_modules/       
