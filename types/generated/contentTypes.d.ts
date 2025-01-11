@@ -1205,8 +1205,13 @@ export interface ApiPublicacionPublicacion extends Schema.CollectionType {
       'manyToMany',
       'api::clase-entrenador.clase-entrenador'
     >;
-    rutina: Attribute.Boolean & Attribute.DefaultTo<false>;
     Fecha: Attribute.Date;
+    rutina: Attribute.Boolean;
+    rutina_publicacion: Attribute.Relation<
+      'api::publicacion.publicacion',
+      'oneToOne',
+      'api::rutina.rutina'
+    >;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     publishedAt: Attribute.DateTime;
