@@ -1205,8 +1205,13 @@ export interface ApiPublicacionPublicacion extends Schema.CollectionType {
       'manyToMany',
       'api::clase-entrenador.clase-entrenador'
     >;
-    rutina: Attribute.Boolean & Attribute.DefaultTo<false>;
     Fecha: Attribute.Date;
+    rutina: Attribute.Boolean;
+    rutina_publicacion: Attribute.Relation<
+      'api::publicacion.publicacion',
+      'oneToOne',
+      'api::rutina.rutina'
+    >;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     publishedAt: Attribute.DateTime;
@@ -1222,6 +1227,89 @@ export interface ApiPublicacionPublicacion extends Schema.CollectionType {
       'admin::user'
     > &
       Attribute.Private;
+  };
+}
+
+export interface ApiRecursoRecurso extends Schema.CollectionType {
+  collectionName: 'recursos';
+  info: {
+    singularName: 'recurso';
+    pluralName: 'recursos';
+    displayName: 'Recursos';
+    description: '';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  pluginOptions: {
+    i18n: {
+      localized: true;
+    };
+  };
+  attributes: {
+    Nombre: Attribute.String &
+      Attribute.Required &
+      Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }>;
+    Estado: Attribute.String &
+      Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }>;
+    Url: Attribute.Text &
+      Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }>;
+    FecIng: Attribute.DateTime &
+      Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }>;
+    Media: Attribute.Media &
+      Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }>;
+    Tipo: Attribute.String &
+      Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }>;
+    rutinas: Attribute.Relation<
+      'api::recurso.recurso',
+      'manyToMany',
+      'api::rutina.rutina'
+    >;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    publishedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::recurso.recurso',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::recurso.recurso',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    localizations: Attribute.Relation<
+      'api::recurso.recurso',
+      'oneToMany',
+      'api::recurso.recurso'
+    >;
+    locale: Attribute.String;
   };
 }
 
@@ -1278,6 +1366,11 @@ export interface ApiRutinaRutina extends Schema.CollectionType {
       'api::rutina.rutina',
       'manyToOne',
       'plugin::users-permissions.user'
+    >;
+    recursos: Attribute.Relation<
+      'api::rutina.rutina',
+      'manyToMany',
+      'api::recurso.recurso'
     >;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
@@ -1413,6 +1506,7 @@ declare module '@strapi/types' {
       'api::notificacion.notificacion': ApiNotificacionNotificacion;
       'api::producto.producto': ApiProductoProducto;
       'api::publicacion.publicacion': ApiPublicacionPublicacion;
+      'api::recurso.recurso': ApiRecursoRecurso;
       'api::ruta.ruta': ApiRutaRuta;
       'api::rutina.rutina': ApiRutinaRutina;
       'api::tabla.tabla': ApiTablaTabla;

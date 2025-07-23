@@ -63,12 +63,16 @@
       "target": "api::clase-entrenador.clase-entrenador",
       "inversedBy": "publicaciones"
     },
-    "rutina": {
-      "type": "boolean",
-      "default": false
-    },
     "Fecha": {
       "type": "datetime"
+    },
+    "rutina": {
+      "type": "boolean"
+    },
+    "rutina_publicacion": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::rutina.rutina"
     }
   }
 }
