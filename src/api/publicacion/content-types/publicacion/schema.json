@@ -64,7 +64,7 @@
       "inversedBy": "publicaciones"
     },
     "Fecha": {
-      "type": "date"
+      "type": "datetime"
     },
     "rutina": {
       "type": "boolean"
