@@ -7,4 +7,6 @@ module.exports = ({ env }) => ({
   webhooks: {
     populateRelations: env.bool('WEBHOOKS_POPULATE_RELATIONS', false),
   },
+  // Configurar zona horaria para Ecuador
+  timezone: 'America/Guayaquil',
 });

@@ -12,6 +12,8 @@ module.exports = [
   'strapi::logger',
   'strapi::query',
   'strapi::body',
+  // Nuestro middleware personalizado para manejar zona horaria
+  'global::timezone-handler',
   'strapi::session',
   'strapi::favicon',
   'strapi::public',
